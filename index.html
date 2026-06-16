@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Concept Mapping: Barriers to Reentry — CRJU 1000</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1E3A5F;
+    --navy-dk: #162D4A;
+    --teal: #1D7A6E;
+    --teal-tint: #E2EFEC;
+    --amber: #B8860B;
+    --amber-tint: #F7EFDC;
+    --coral: #A8444B;
+    --coral-tint: #F6DEE1;
+    --cream: #F7F5F0;
+    --ink: #2B2A28;
+    --slate: #6E665D;
+    --white: #FFFFFF;
+    --border: #E2DDD3;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', Arial, sans-serif;
+    line-height: 1.55;
+  }
+  h1, h2, h3 { font-family: 'DM Serif Display', Georgia, serif; font-weight: 400; margin: 0; }
+  .app { max-width: 880px; margin: 0 auto; padding: 0 16px 56px; }
+
+  /* ── Progress bar ── */
+  .progress-track {
+    position: sticky; top: 0; z-index: 20;
+    height: 6px; width: 100%;
+    background: var(--border);
+  }
+  .progress-fill {
+    height: 100%; width: 25%;
+    background: var(--navy);
+    transition: width 0.35s ease;
+  }
+  .progress-label {
+    text-align: center; font-size: 0.78rem; color: var(--slate);
+    letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 10px 0 0;
+  }
+
+  /* ── Header ── */
+  .app-header { text-align: center; padding: 18px 0 8px; }
+  .app-header .eyebrow {
+    font-size: 0.78rem; font-weight: 700; color: var(--teal);
+    letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px;
+  }
+  .app-header h1 { font-size: 1.9rem; color: var(--navy); }
+
+  /* ── Screens ── */
+  .screen { display: none; animation: fadeIn 0.4s ease; }
+  .screen.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 24px;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 10px rgba(30,58,95,0.05);
+  }
+
+  /* ── Buttons ── */
+  .btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem; font-weight: 600;
+    border: none; border-radius: 999px;
+    padding: 12px 28px; cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  }
+  .btn-primary { background: var(--navy); color: var(--white); }
+  .btn-primary:hover:not(:disabled) { background: var(--navy-dk); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(30,58,95,0.25); }
+  .btn-primary:disabled { background: #B9C2CD; cursor: not-allowed; }
+  .btn-secondary { background: transparent; color: var(--navy); border: 1.5px solid var(--navy); }
+  .btn-secondary:hover { background: var(--navy); color: var(--white); }
+  .btn-row { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; gap: 12px; flex-wrap: wrap; }
+  .btn-row.center { justify-content: center; }
+
+  /* ── Intro screen ── */
+  .scenario-box {
+    background: var(--navy);
+    color: var(--white);
+    border-radius: 14px;
+    padding: 24px 26px;
+    margin: 18px 0;
+  }
+  .scenario-box h2 { color: var(--white); font-size: 1.25rem; margin-bottom: 10px; }
+  .scenario-box p { color: #DCE6F0; margin: 0; font-size: 1rem; }
+  .task-list { padding-left: 22px; margin: 8px 0; }
+  .task-list li { margin-bottom: 8px; }
+
+  /* ── Map builder ── */
+  .release-node {
+    background: var(--navy-dk);
+    color: var(--white);
+    border-radius: 14px;
+    text-align: center;
+    padding: 18px 24px;
+    max-width: 520px;
+    margin: 0 auto;
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.05rem;
+    border-bottom: 6px solid var(--navy);
+  }
+  .branches {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-top: 0;
+  }
+  @media (max-width: 760px) {
+    .branches { grid-template-columns: 1fr; }
+  }
+  .branch {
+    border-top: 6px solid var(--branch-color, var(--teal));
+    border-radius: 0 0 14px 14px;
+    background: var(--white);
+    padding: 14px;
+    box-shadow: 0 2px 10px rgba(30,58,95,0.05);
+  }
+  .branch-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 4px; }
+  .branch-header h3 { font-size: 1.05rem; color: var(--navy); }
+  .branch-count { font-size: 0.78rem; color: var(--slate); font-weight: 600; white-space: nowrap; }
+
+  .hint-toggle {
+    font-size: 0.82rem; color: var(--slate);
+    margin: 4px 0 10px;
+  }
+  .hint-toggle button {
+    background: none; border: none; color: var(--teal);
+    font-weight: 700; cursor: pointer; padding: 0; font-size: 0.82rem;
+    text-decoration: underline;
+  }
+  .hint-box {
+    display: none;
+    background: var(--cream);
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    font-size: 0.85rem; color: var(--slate);
+  }
+  .hint-box.show { display: block; }
+  .hint-box ul { margin: 4px 0 0; padding-left: 18px; }
+  .hint-box li { margin-bottom: 3px; }
+
+  .barrier-card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  .barrier-row { display: flex; gap: 6px; margin-bottom: 8px; }
+  .barrier-text {
+    flex: 1;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--white);
+  }
+  .remove-btn {
+    background: var(--white);
+    border: 1px solid var(--border);
+    color: var(--coral);
+    border-radius: 6px;
+    width: 34px; height: 34px;
+    font-size: 1.1rem; line-height: 1;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .remove-btn:hover { background: var(--coral-tint); }
+  .barrier-selects { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .barrier-selects select {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    padding: 7px 8px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--white);
+    color: var(--ink);
+  }
+  .barrier-selects select.empty { color: var(--slate); border-color: var(--coral); }
+  @media (max-width: 480px) {
+    .barrier-selects { grid-template-columns: 1fr; }
+  }
+
+  .add-barrier-btn {
+    width: 100%;
+    background: var(--white);
+    border: 1.5px dashed var(--border);
+    border-radius: 8px;
+    padding: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600; font-size: 0.88rem;
+    color: var(--navy);
+    cursor: pointer;
+  }
+  .add-barrier-btn:hover { background: var(--cream); border-color: var(--navy); }
+
+  /* ── Status bar (map screen) ── */
+  .status-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 10px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 18px;
+    margin: 16px 0;
+    font-size: 0.9rem;
+  }
+  .status-bar.valid { border-color: var(--teal); background: var(--teal-tint); }
+  .status-bar.invalid { border-color: var(--amber); background: var(--amber-tint); }
+  .status-counts { font-weight: 700; color: var(--navy); }
+  .status-message { color: var(--slate); }
+  .status-bar.valid .status-message { color: #1D7A6E; font-weight: 600; }
+
+  /* ── Reflection screen ── */
+  textarea.reflection-input {
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    min-height: 110px;
+    resize: vertical;
+    background: var(--white);
+  }
+  .word-count { font-size: 0.85rem; color: var(--slate); margin-top: 6px; text-align: right; }
+  .word-count.ok { color: var(--teal); font-weight: 600; }
+
+  .map-recap { font-size: 0.9rem; }
+  .map-recap-cat { margin-bottom: 10px; }
+  .map-recap-cat strong { color: var(--navy); }
+  .map-recap-cat ul { margin: 4px 0 0; padding-left: 20px; }
+
+  /* ── Review screen ── */
+  .summary-box {
+    background: var(--navy-dk);
+    color: #E8EEF4;
+    border-radius: 10px;
+    padding: 16px 18px;
+    font-family: 'DM Sans', monospace;
+    font-size: 0.85rem;
+    white-space: pre-wrap;
+    max-height: 420px;
+    overflow-y: auto;
+    line-height: 1.6;
+  }
+  .copy-feedback {
+    font-size: 0.85rem; color: var(--teal); font-weight: 600;
+    margin-left: 10px; opacity: 0; transition: opacity 0.2s ease;
+  }
+  .copy-feedback.show { opacity: 1; }
+
+  .note-box {
+    background: var(--amber-tint);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 0.9rem;
+    color: var(--ink);
+    margin-top: 14px;
+  }
+  .note-box strong { color: var(--navy); }
+</style>
+</head>
+<body>
+<div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+<div class="app">
+  <div class="app-header">
+    <div class="eyebrow">CRJU 1000 &nbsp;&middot;&nbsp; Week 7 Engagement Activity</div>
+    <h1>Concept Mapping: Barriers to Reentry</h1>
+  </div>
+  <div class="progress-label" id="progressLabel">Step 1 of 4 — Scenario</div>
+
+  <!-- ══════════════ SCREEN 1: INTRO / SCENARIO ══════════════ -->
+  <section class="screen active" id="screen1">
+    <div class="card">
+      <p>Today's task is a concept map — a visual way of laying out how different pieces of a system connect to each other. Here, the system is reentry: what someone faces on the day they walk out of prison.</p>
+    </div>
+
+    <div class="scenario-box">
+      <h2>The Scenario</h2>
+      <p>A person has just been released after serving 5 years in prison for a nonviolent felony drug offense. They are heading back into their community today. What's waiting for them?</p>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size:1.1rem; color: var(--navy); margin-bottom:10px;">Your Task</h3>
+      <ul class="task-list">
+        <li>Build a map of <strong>at least 6 barriers</strong> this person might face, spread across <strong>three categories</strong>: Employment, Housing, and Civil &amp; Legal Rights. Every category needs at least one barrier.</li>
+        <li>For <strong>each barrier</strong>, identify two things:
+          <ul style="margin-top:6px;">
+            <li>Which part of the system &mdash; <strong>law enforcement, courts, corrections, or legislation/policy</strong> &mdash; created or enforces this barrier.</li>
+            <li>Which theory &mdash; <strong>labeling, strain, or social bond</strong> &mdash; best explains why this barrier makes reoffending more likely.</li>
+          </ul>
+        </li>
+        <li>Finish with a short reflection: if you were designing a reentry program, which barrier would you tackle first, and why?</li>
+      </ul>
+      <p style="font-size:0.88rem; color:var(--slate); margin-top:12px;">Estimated time: 25&ndash;30 minutes. If a theory connection genuinely doesn't click for a barrier, pick the theory that comes <em>closest</em> &mdash; the goal is practicing the application, not finding a perfect fit every time.</p>
+    </div>
+
+    <div class="btn-row center">
+      <button class="btn btn-primary" onclick="goToScreen(2)">Begin Mapping &rarr;</button>
+    </div>
+  </section>
+
+  <!-- ══════════════ SCREEN 2: MAP BUILDER ══════════════ -->
+  <section class="screen" id="screen2">
+    <div class="release-node">
+      Release Day &mdash; 5-year sentence served<br>(nonviolent felony drug offense)
+    </div>
+
+    <div class="branches">
+      <div class="branch" style="--branch-color: var(--teal);">
+        <div class="branch-header">
+          <h3>Employment</h3>
+          <span class="branch-count" id="count-employment">0 barriers</span>
+        </div>
+        <div class="hint-toggle">
+          <button onclick="toggleHint('employment')">Need a starting point?</button>
+        </div>
+        <div class="hint-box" id="hint-employment">
+          <ul>
+            <li>Background check questions on job applications</li>
+            <li>Occupational licensing restrictions (e.g., healthcare, cosmetology, real estate)</li>
+            <li>Employer hesitancy once a record is disclosed</li>
+          </ul>
+        </div>
+        <div class="barrier-list" id="list-employment"></div>
+        <button class="add-barrier-btn" onclick="addBarrier('employment')">+ Add Barrier</button>
+      </div>
+
+      <div class="branch" style="--branch-color: var(--amber);">
+        <div class="branch-header">
+          <h3>Housing</h3>
+          <span class="branch-count" id="count-housing">0 barriers</span>
+        </div>
+        <div class="hint-toggle">
+          <button onclick="toggleHint('housing')">Need a starting point?</button>
+        </div>
+        <div class="hint-box" id="hint-housing">
+          <ul>
+            <li>Public housing eligibility restrictions for certain convictions</li>
+            <li>Private landlords screening out applicants with records</li>
+            <li>Risk to family members' housing if someone moves back in (lease violations)</li>
+          </ul>
+        </div>
+        <div class="barrier-list" id="list-housing"></div>
+        <button class="add-barrier-btn" onclick="addBarrier('housing')">+ Add Barrier</button>
+      </div>
+
+      <div class="branch" style="--branch-color: var(--coral);">
+        <div class="branch-header">
+          <h3>Civil &amp; Legal Rights</h3>
+          <span class="branch-count" id="count-civil">0 barriers</span>
+        </div>
+        <div class="hint-toggle">
+          <button onclick="toggleHint('civil')">Need a starting point?</button>
+        </div>
+        <div class="hint-box" id="hint-civil">
+          <ul>
+            <li>Loss or restriction of voting rights</li>
+            <li>Restrictions on firearm possession</li>
+            <li>Exclusion from jury service</li>
+            <li>Travel or association restrictions under parole conditions</li>
+            <li>Complications regaining custody or parental rights</li>
+          </ul>
+        </div>
+        <div class="barrier-list" id="list-civil"></div>
+        <button class="add-barrier-btn" onclick="addBarrier('civil')">+ Add Barrier</button>
+      </div>
+    </div>
+
+    <div class="status-bar" id="statusBar">
+      <div class="status-counts" id="statusCounts">0 of 6 barriers mapped</div>
+      <div class="status-message" id="statusMessage">Add at least one barrier to each category, and fill in both dropdowns for each.</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goToScreen(1)">&larr; Back</button>
+      <button class="btn btn-primary" id="toReflectionBtn" onclick="goToScreen(3)" disabled>Next: Reflection &rarr;</button>
+    </div>
+  </section>
+
+  <!-- ══════════════ SCREEN 3: REFLECTION ══════════════ -->
+  <section class="screen" id="screen3">
+    <div class="card">
+      <h3 style="font-size:1.1rem; color: var(--navy); margin-bottom:10px;">Your Map So Far</h3>
+      <div class="map-recap" id="mapRecap"></div>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size:1.1rem; color: var(--navy); margin-bottom:6px;">One Last Question</h3>
+      <p style="margin-top:0;">If you were designing a reentry program, which barrier from your map would you address <strong>first</strong>, and why? Write two sentences.</p>
+      <textarea class="reflection-input" id="reflectionInput" placeholder="I would address... because..." oninput="updateReflectionCount()"></textarea>
+      <div class="word-count" id="reflectionCount">0 words</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goToScreen(2)">&larr; Back</button>
+      <button class="btn btn-primary" id="toReviewBtn" onclick="goToScreen(4)" disabled>Review &amp; Submit &rarr;</button>
+    </div>
+  </section>
+
+  <!-- ══════════════ SCREEN 4: REVIEW & SUBMIT ══════════════ -->
+  <section class="screen" id="screen4">
+    <div class="card">
+      <h3 style="font-size:1.1rem; color: var(--navy); margin-bottom:10px;">Your Concept Map Summary</h3>
+      <p style="margin-top:0; font-size:0.9rem; color:var(--slate);">This is a structured written version of your map &mdash; one of the accepted submission formats. Copy it and paste it into the Canvas text-entry box, or use it as a check against a hand-drawn or digital diagram.</p>
+      <div class="summary-box" id="summaryBox"></div>
+      <div class="btn-row" style="margin-top:14px;">
+        <button class="btn btn-primary" onclick="copySummary()">Copy Summary</button>
+        <span class="copy-feedback" id="copyFeedback">Copied!</span>
+      </div>
+    </div>
+
+    <div class="note-box">
+      <strong>Submission reminder:</strong> Submit on the Canvas assignment page in <em>any</em> of these formats &mdash; a photo of a hand-drawn map, a digital diagram (e.g., Jamboard, Miro, PowerPoint), or this structured written list. Whichever format you choose, make sure every barrier includes its system actor and theory annotation, and that your two-sentence reflection is included. This activity is graded on completion.
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goToScreen(3)">&larr; Back</button>
+      <button class="btn btn-secondary" onclick="resetTool()">Start Over</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  // ── State ──
+  var categories = {
+    employment: { label: 'Employment' },
+    housing: { label: 'Housing' },
+    civil: { label: 'Civil & Legal Rights' }
+  };
+  var actorOptions = ['Law Enforcement', 'Courts', 'Corrections', 'Legislation / Policy'];
+  var theoryOptions = ['Labeling Theory', 'Strain Theory', 'Social Bond Theory'];
+
+  var barriers = []; // {id, category, text, actor, theory}
+  var nextId = 1;
+  var currentScreen = 1;
+
+  // seed one empty card per category to show the format
+  ['employment', 'housing', 'civil'].forEach(function (cat) {
+    barriers.push({ id: nextId++, category: cat, text: '', actor: '', theory: '' });
+  });
+
+  function goToScreen(n) {
+    for (var i = 1; i <= 4; i++) {
+      var el = document.getElementById('screen' + i);
+      if (el) { el.classList.remove('active'); }
+    }
+    document.getElementById('screen' + n).classList.add('active');
+    currentScreen = n;
+    document.getElementById('progressFill').style.width = (n / 4 * 100) + '%';
+    var labels = {
+      1: 'Step 1 of 4 — Scenario',
+      2: 'Step 2 of 4 — Build Your Map',
+      3: 'Step 3 of 4 — Reflection',
+      4: 'Step 4 of 4 — Review & Submit'
+    };
+    document.getElementById('progressLabel').textContent = labels[n];
+    window.scrollTo(0, 0);
+    if (n === 2) { renderAllBarriers(); updateCounts(); }
+    if (n === 3) { renderRecap(); updateReflectionCount(); }
+    if (n === 4) { renderSummary(); }
+  }
+
+  function toggleHint(cat) {
+    var box = document.getElementById('hint-' + cat);
+    box.classList.toggle('show');
+  }
+
+  function addBarrier(cat) {
+    barriers.push({ id: nextId++, category: cat, text: '', actor: '', theory: '' });
+    renderBarriers(cat);
+    updateCounts();
+  }
+
+  function removeBarrier(id) {
+    var b = null;
+    for (var i = 0; i < barriers.length; i++) { if (barriers[i].id === id) { b = barriers[i]; break; } }
+    if (!b) return;
+    barriers = barriers.filter(function (x) { return x.id !== id; });
+    renderBarriers(b.category);
+    updateCounts();
+  }
+
+  function updateBarrierField(id, field, value) {
+    for (var i = 0; i < barriers.length; i++) {
+      if (barriers[i].id === id) { barriers[i][field] = value; break; }
+    }
+    updateCounts();
+  }
+
+  function renderAllBarriers() {
+    ['employment', 'housing', 'civil'].forEach(function (cat) { renderBarriers(cat); });
+  }
+
+  function renderBarriers(cat) {
+    var list = document.getElementById('list-' + cat);
+    list.innerHTML = '';
+    var items = barriers.filter(function (b) { return b.category === cat; });
+    items.forEach(function (b) {
+      var card = document.createElement('div');
+      card.className = 'barrier-card';
+
+      var row = document.createElement('div');
+      row.className = 'barrier-row';
+
+      var input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'barrier-text';
+      input.placeholder = 'Describe the barrier...';
+      input.value = b.text;
+      input.oninput = function () { updateBarrierField(b.id, 'text', this.value); };
+      row.appendChild(input);
+
+      var rm = document.createElement('button');
+      rm.className = 'remove-btn';
+      rm.innerHTML = '&times;';
+      rm.title = 'Remove this barrier';
+      rm.onclick = function () { removeBarrier(b.id); };
+      row.appendChild(rm);
+
+      card.appendChild(row);
+
+      var selects = document.createElement('div');
+      selects.className = 'barrier-selects';
+
+      var actorSel = document.createElement('select');
+      actorSel.appendChild(makeOption('', 'System actor...'));
+      actorOptions.forEach(function (opt) { actorSel.appendChild(makeOption(opt, opt)); });
+      actorSel.value = b.actor;
+      if (!b.actor) actorSel.classList.add('empty');
+      actorSel.onchange = function () {
+        updateBarrierField(b.id, 'actor', this.value);
+        this.classList.toggle('empty', !this.value);
+      };
+      selects.appendChild(actorSel);
+
+      var theorySel = document.createElement('select');
+      theorySel.appendChild(makeOption('', 'Theory...'));
+      theoryOptions.forEach(function (opt) { theorySel.appendChild(makeOption(opt, opt)); });
+      theorySel.value = b.theory;
+      if (!b.theory) theorySel.classList.add('empty');
+      theorySel.onchange = function () {
+        updateBarrierField(b.id, 'theory', this.value);
+        this.classList.toggle('empty', !this.value);
+      };
+      selects.appendChild(theorySel);
+
+      card.appendChild(selects);
+      list.appendChild(card);
+    });
+  }
+
+  function makeOption(value, label) {
+    var o = document.createElement('option');
+    o.value = value;
+    o.textContent = label;
+    return o;
+  }
+
+  function updateCounts() {
+    var total = 0;
+    var catCounts = { employment: 0, housing: 0, civil: 0 };
+    var allFilled = true;
+    barriers.forEach(function (b) {
+      var filled = b.text.trim().length > 0 && b.actor && b.theory;
+      if (filled) {
+        total++;
+        catCounts[b.category]++;
+      } else if (b.text.trim().length > 0 || b.actor || b.theory) {
+        // partially filled counts as "in progress" but not toward total/min
+      }
+    });
+
+    ['employment', 'housing', 'civil'].forEach(function (cat) {
+      var el = document.getElementById('count-' + cat);
+      var n = catCounts[cat];
+      el.textContent = n + (n === 1 ? ' barrier' : ' barriers');
+    });
+
+    var statusBar = document.getElementById('statusBar');
+    var statusCounts = document.getElementById('statusCounts');
+    var statusMessage = document.getElementById('statusMessage');
+    var nextBtn = document.getElementById('toReflectionBtn');
+
+    statusCounts.textContent = total + ' of 6 barriers fully mapped';
+
+    var categoriesCovered = 0;
+    ['employment', 'housing', 'civil'].forEach(function (cat) { if (catCounts[cat] > 0) categoriesCovered++; });
+
+    var valid = total >= 6 && categoriesCovered === 3;
+
+    if (valid) {
+      statusBar.className = 'status-bar valid';
+      statusMessage.textContent = 'Looks good — every category is covered and you have at least 6 complete barriers.';
+      nextBtn.disabled = false;
+    } else {
+      statusBar.className = 'status-bar invalid';
+      var missing = [];
+      if (total < 6) missing.push((6 - total) + ' more complete barrier' + ((6 - total) === 1 ? '' : 's'));
+      var missingCats = [];
+      ['employment', 'housing', 'civil'].forEach(function (cat) { if (catCounts[cat] === 0) missingCats.push(categories[cat].label); });
+      if (missingCats.length > 0) missing.push('at least one barrier in: ' + missingCats.join(', '));
+      statusMessage.textContent = 'Still need: ' + missing.join('; ') + '. A barrier counts once it has a description, a system actor, and a theory selected.';
+      nextBtn.disabled = true;
+    }
+  }
+
+  function renderRecap() {
+    var recap = document.getElementById('mapRecap');
+    recap.innerHTML = '';
+    ['employment', 'housing', 'civil'].forEach(function (cat) {
+      var items = barriers.filter(function (b) { return b.category === cat && b.text.trim().length > 0 && b.actor && b.theory; });
+      if (items.length === 0) return;
+      var block = document.createElement('div');
+      block.className = 'map-recap-cat';
+      var strong = document.createElement('strong');
+      strong.textContent = categories[cat].label;
+      block.appendChild(strong);
+      var ul = document.createElement('ul');
+      items.forEach(function (b) {
+        var li = document.createElement('li');
+        li.textContent = b.text + '  —  ' + b.actor + ' / ' + b.theory;
+        ul.appendChild(li);
+      });
+      block.appendChild(ul);
+      recap.appendChild(block);
+    });
+  }
+
+  function updateReflectionCount() {
+    var val = document.getElementById('reflectionInput').value.trim();
+    var words = val.length === 0 ? 0 : val.split(/\s+/).length;
+    var countEl = document.getElementById('reflectionCount');
+    countEl.textContent = words + ' word' + (words === 1 ? '' : 's');
+    var btn = document.getElementById('toReviewBtn');
+    if (words >= 15) {
+      countEl.classList.add('ok');
+      countEl.textContent += ' — looks like a solid two sentences.';
+      btn.disabled = false;
+    } else {
+      countEl.classList.remove('ok');
+      countEl.textContent += ' (aim for at least two full sentences)';
+      btn.disabled = true;
+    }
+  }
+
+  function renderSummary() {
+    var lines = [];
+    lines.push('CONCEPT MAP: BARRIERS TO REENTRY');
+    lines.push('Scenario: Released after serving 5 years for a nonviolent felony drug offense.');
+    lines.push('');
+    ['employment', 'housing', 'civil'].forEach(function (cat) {
+      var items = barriers.filter(function (b) { return b.category === cat && b.text.trim().length > 0 && b.actor && b.theory; });
+      if (items.length === 0) return;
+      lines.push(categories[cat].label.toUpperCase());
+      items.forEach(function (b, idx) {
+        lines.push((idx + 1) + '. ' + b.text);
+        lines.push('   System actor: ' + b.actor);
+        lines.push('   Theory: ' + b.theory);
+      });
+      lines.push('');
+    });
+    lines.push('REFLECTION');
+    var reflection = document.getElementById('reflectionInput').value.trim();
+    lines.push(reflection.length > 0 ? reflection : '(not yet written)');
+
+    document.getElementById('summaryBox').textContent = lines.join('\n');
+  }
+
+  function copySummary() {
+    var text = document.getElementById('summaryBox').textContent;
+    var feedback = document.getElementById('copyFeedback');
+    function showFeedback() {
+      feedback.classList.add('show');
+      setTimeout(function () { feedback.classList.remove('show'); }, 1800);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(showFeedback).catch(function () { fallbackCopy(text, showFeedback); });
+    } else {
+      fallbackCopy(text, showFeedback);
+    }
+  }
+
+  function fallbackCopy(text, cb) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+    if (cb) cb();
+  }
+
+  function resetTool() {
+    if (!confirm('This will clear your map and reflection. Continue?')) return;
+    barriers = [];
+    nextId = 1;
+    ['employment', 'housing', 'civil'].forEach(function (cat) {
+      barriers.push({ id: nextId++, category: cat, text: '', actor: '', theory: '' });
+    });
+    document.getElementById('reflectionInput').value = '';
+    goToScreen(1);
+  }
+
+  // initial render
+  renderAllBarriers();
+  updateCounts();
+
+  // QA/deep-link helper: #screen=N optionally with &demo=1 to pre-fill sample data
+  (function () {
+    var hash = window.location.hash.replace('#', '');
+    if (!hash) return;
+    var params = {};
+    hash.split('&').forEach(function (p) {
+      var kv = p.split('=');
+      if (kv[0]) params[kv[0]] = kv[1];
+    });
+    if (params.demo === '1') {
+      barriers[0].text = 'Background check question on job applications';
+      barriers[0].actor = 'Legislation / Policy';
+      barriers[0].theory = 'Labeling Theory';
+      barriers[1].text = 'Public housing eligibility restrictions';
+      barriers[1].actor = 'Legislation / Policy';
+      barriers[1].theory = 'Strain Theory';
+      barriers[2].text = 'Loss of voting rights';
+      barriers[2].actor = 'Legislation / Policy';
+      barriers[2].theory = 'Social Bond Theory';
+      addBarrier('employment');
+      barriers[barriers.length - 1].text = 'Occupational licensing restrictions';
+      barriers[barriers.length - 1].actor = 'Courts';
+      barriers[barriers.length - 1].theory = 'Strain Theory';
+      addBarrier('housing');
+      barriers[barriers.length - 1].text = 'Landlord background screening';
+      barriers[barriers.length - 1].actor = 'Legislation / Policy';
+      barriers[barriers.length - 1].theory = 'Social Bond Theory';
+      addBarrier('civil');
+      barriers[barriers.length - 1].text = 'Parole travel restrictions';
+      barriers[barriers.length - 1].actor = 'Corrections';
+      barriers[barriers.length - 1].theory = 'Social Bond Theory';
+      renderAllBarriers();
+      updateCounts();
+      var refEl = document.getElementById('reflectionInput');
+      if (refEl) refEl.value = 'I would address the employment barrier first because stable income makes housing and legal stability much easier to reach. Once someone has a steady job, they have both the resources and the routine that support every other part of reentry.';
+    }
+    if (params.screen) {
+      goToScreen(parseInt(params.screen, 10));
+    }
+  })();
+</script>
+</body>
+</html>
