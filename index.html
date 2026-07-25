@@ -1,743 +1,133 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Week 7 Engagement Activity | CRJU 5004</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --navy:#1a2744; --gold:#c8a84b; --gold-lt:#f0dfa0; --slate:#4a5568;
-      --fog:#f4f5f7; --white:#ffffff; --border:#dde1ea;
-      --green:#2d6a4f; --green-lt:#d8f3dc;
-      --red:#9b2335; --red-lt:#fde8ea;
-      --amber:#92400e; --amber-lt:#fef3c7;
-      --teal:#0d6b74; --teal-lt:#d0f0f3;
-      --purple:#5a3e8a; --purple-lt:#ede8f7;
-      --radius:8px;
-    }
-    body { font-family:'DM Sans',sans-serif; background:var(--fog); color:var(--navy); line-height:1.65; }
-    .header-bar { background:var(--gold); height:5px; }
-    header { background:var(--navy); }
-    .header-inner { max-width:900px; margin:0 auto; padding:2.5rem 2rem 2rem; }
-    .course-label { font-family:'DM Mono',monospace; font-size:0.72rem; letter-spacing:0.14em; color:var(--gold-lt); text-transform:uppercase; margin-bottom:0.6rem; }
-    header h1 { font-family:'DM Serif Display',serif; font-size:2rem; font-weight:400; line-height:1.2; color:#fff; margin-bottom:0.4rem; }
-    header h1 span { color:var(--gold); }
-    .header-meta { font-size:0.85rem; color:#aab4cc; margin-top:0.75rem; }
-    .header-meta strong { color:var(--gold-lt); }
-    main { max-width:900px; margin:0 auto; padding:2.5rem 2rem 4rem; }
-    .card { background:var(--white); border:1px solid var(--border); border-radius:var(--radius); padding:2rem; margin-bottom:2rem; }
-    .card h2 { font-family:'DM Serif Display',serif; font-size:1.3rem; font-weight:400; border-bottom:2px solid var(--gold); padding-bottom:0.5rem; margin-bottom:1.25rem; }
-    .card p { font-size:0.95rem; margin-bottom:0.85rem; }
-    .card p:last-child { margin-bottom:0; }
-    .tag { display:inline-block; font-family:'DM Mono',monospace; font-size:0.72rem; letter-spacing:0.06em; padding:0.15rem 0.55rem; border-radius:4px; font-weight:600; }
-    .tag-slo { background:#e8ecf5; color:var(--navy); border:1px solid #c0c9e0; }
-    .tag-time { background:var(--amber-lt); color:var(--amber); border:1px solid #fbbf24; }
-    .info-box { border-radius:var(--radius); padding:1rem 1.25rem; margin-bottom:1rem; font-size:0.9rem; }
-    .info-box.context { background:var(--teal-lt); border-left:4px solid var(--teal); }
-    .info-box.tip { background:var(--amber-lt); border-left:4px solid #d97706; }
-    .info-box.formula { background:var(--purple-lt); border-left:4px solid var(--purple); }
-    .info-box strong { display:block; margin-bottom:0.3rem; font-size:0.78rem; letter-spacing:0.07em; text-transform:uppercase; }
-    .section { border:1px solid var(--border); border-radius:var(--radius); margin-bottom:2rem; overflow:hidden; }
-    .section-header { background:var(--navy); color:var(--white); padding:0.85rem 1.25rem; display:flex; align-items:center; gap:1rem; }
-    .section-num { background:var(--gold); color:var(--navy); font-family:'DM Mono',monospace; font-size:0.78rem; font-weight:600; padding:0.2rem 0.55rem; border-radius:4px; white-space:nowrap; }
-    .section-header h3 { font-size:0.95rem; font-weight:600; }
-    .section-body { padding:1.5rem; }
+<!-- CRJU 1000 | Module 7 | Engagement Activity Instructions | Canvas-safe HTML | Inline styles only -->
+<div style="font-family: Calibri, Arial, sans-serif; font-size: 16px; color: #222222; max-width: 860px; margin: 0 auto; padding: 0 8px;">
 
-    /* Stata output */
-    .stata-block { background:#0f1b2e; border:1px solid #2a3f5c; border-radius:var(--radius); padding:0; margin:1rem 0; overflow:hidden; font-family:'DM Mono',monospace; }
-    .stata-cmd { background:#0a1520; color:#7a9fc8; font-size:0.75rem; padding:0.5rem 1rem; border-bottom:1px solid #1a2f48; }
-    .stata-body { padding:0.85rem 1rem 1rem; overflow-x:auto; }
-    .stata-out { font-size:0.78rem; color:#c8d8f0; line-height:1.8; white-space:pre; }
-    .stata-out .hi  { color:#f0dfa0; font-weight:600; }
-    .stata-out .sig { color:#88e0a0; }
-    .stata-out .ns  { color:#e09090; }
-    .stata-out .dim { color:#4a6888; }
-    .stata-out .head{ color:#7a9fc8; }
-
-    /* Step blocks */
-    .step-block { border:1px solid var(--border); border-radius:var(--radius); margin-bottom:1.5rem; overflow:hidden; }
-    .step-header { background:var(--fog); padding:0.6rem 1rem; display:flex; align-items:center; gap:0.65rem; border-bottom:1px solid var(--border); }
-    .step-badge { background:var(--navy); color:var(--gold); font-family:'DM Mono',monospace; font-size:0.72rem; font-weight:600; padding:0.15rem 0.5rem; border-radius:3px; }
-    .step-header span { font-size:0.9rem; font-weight:600; color:var(--navy); }
-    .step-body { padding:1.1rem 1.25rem; }
-    .step-body p { font-size:0.88rem; color:var(--slate); margin-bottom:0.7rem; }
-
-    /* Inline calculation row */
-    .calc-row { display:flex; flex-wrap:wrap; gap:0.6rem; align-items:center; margin-bottom:0.6rem; font-size:0.88rem; }
-    input.calc-input {
-      font-family:'DM Mono',monospace; font-size:0.88rem;
-      border:2px solid var(--border); border-radius:5px;
-      padding:0.35rem 0.65rem; text-align:center;
-      color:var(--navy); background:var(--fog); min-width:80px;
-      transition:border-color 0.15s;
-    }
-    input.calc-input:focus { outline:none; border-color:var(--gold); background:var(--white); }
-    input.calc-input.correct { border-color:var(--green); background:var(--green-lt); }
-    input.calc-input.wrong   { border-color:var(--red);   background:var(--red-lt); }
-    input.calc-input.wide    { min-width:220px; }
-
-    /* Radio */
-    .radio-group { display:flex; flex-direction:column; gap:0.4rem; margin-bottom:0.4rem; }
-    .radio-group label { display:flex; align-items:flex-start; gap:0.5rem; background:var(--fog); border:1.5px solid var(--border); border-radius:5px; padding:0.45rem 0.85rem; font-size:0.88rem; cursor:pointer; line-height:1.45; }
-    .radio-group label:hover { border-color:var(--navy); }
-    .radio-group label:has(input:checked) { background:#e8ecf5; border-color:var(--navy); }
-    .radio-group input[type="radio"] { accent-color:var(--navy); margin-top:0.22rem; flex-shrink:0; }
-
-    textarea.response-area { width:100%; font-family:'DM Sans',sans-serif; font-size:0.88rem; border:1.5px solid var(--border); border-radius:var(--radius); padding:0.75rem 1rem; resize:vertical; min-height:90px; color:var(--navy); background:var(--fog); line-height:1.6; }
-    textarea.response-area:focus { outline:2px solid var(--gold); border-color:var(--gold); background:var(--white); }
-
-    .feedback-msg { display:none; margin-top:0.45rem; font-size:0.83rem; padding:0.5rem 0.85rem; border-radius:5px; line-height:1.55; }
-    .feedback-msg.correct   { background:var(--green-lt); color:var(--green); border-left:3px solid var(--green); }
-    .feedback-msg.incorrect { background:var(--red-lt);   color:var(--red);   border-left:3px solid var(--red); }
-    .feedback-msg.info      { background:var(--teal-lt);  color:var(--teal);  border-left:3px solid var(--teal); }
-
-    .q-label { display:block; font-size:0.9rem; font-weight:600; color:var(--navy); margin-bottom:0.5rem; }
-    .q-num { display:inline-block; background:var(--navy); color:var(--gold); font-family:'DM Mono',monospace; font-size:0.72rem; padding:0.1rem 0.45rem; border-radius:3px; margin-right:0.4rem; }
-
-    .btn { font-family:'DM Sans',sans-serif; font-size:0.88rem; font-weight:600; padding:0.6rem 1.4rem; border-radius:5px; border:none; cursor:pointer; transition:opacity 0.15s,transform 0.1s; }
-    .btn:hover { opacity:0.88; } .btn:active { transform:scale(0.98); }
-    .btn-primary { background:var(--navy); color:var(--white); }
-    .btn-gold { background:var(--gold); color:var(--navy); }
-    .btn-sm { font-size:0.8rem; padding:0.4rem 1rem; }
-    .btn-outline { background:transparent; border:2px solid #4a5a80; color:#c8d0e0; }
-
-    .progress-bar-wrap { background:var(--border); border-radius:99px; height:6px; overflow:hidden; }
-    .progress-bar-fill { background:var(--gold); height:100%; border-radius:99px; transition:width 0.4s ease; width:0%; }
-    .progress-label { font-size:0.8rem; color:var(--slate); font-family:'DM Mono',monospace; }
-
-    #submission-section { display:none; }
-    .submission-box { background:var(--navy); color:var(--white); border-radius:var(--radius); padding:1.75rem; }
-    .submission-box h2 { font-family:'DM Serif Display',serif; font-size:1.3rem; font-weight:400; border-bottom:2px solid var(--gold); padding-bottom:0.5rem; margin-bottom:1.25rem; color:var(--white); }
-    .submission-box p { font-size:0.9rem; color:#c8d0e0; margin-bottom:0.75rem; }
-    #submission-output { background:#0f1b35; border:1px solid #2d3f6a; border-radius:var(--radius); padding:1.25rem; font-family:'DM Mono',monospace; font-size:0.78rem; color:#a8c0f0; line-height:1.8; white-space:pre-wrap; word-break:break-word; margin:1rem 0; max-height:400px; overflow-y:auto; display:none; }
-
-    /* Annotation callouts */
-    .anno-table { width:100%; border-collapse:collapse; font-size:0.85rem; margin:1rem 0; }
-    .anno-table th { background:var(--navy); color:var(--white); padding:0.55rem 0.85rem; text-align:left; font-weight:500; font-size:0.8rem; letter-spacing:0.04em; }
-    .anno-table td { padding:0.5rem 0.85rem; border-bottom:1px solid var(--border); vertical-align:top; }
-    .anno-table tr:nth-child(even) td { background:var(--fog); }
-    .anno-table tr:last-child td { border-bottom:none; }
-    .anno-table .code { font-family:'DM Mono',monospace; font-size:0.8rem; color:var(--navy); }
-    .anno-table .sig-tag { font-family:'DM Mono',monospace; font-size:0.72rem; font-weight:600; padding:0.1rem 0.4rem; border-radius:3px; }
-    .sig-y { background:var(--green-lt); color:var(--green); }
-    .sig-n { background:var(--red-lt); color:var(--red); }
-
-    .divider { border:none; border-top:1px solid var(--border); margin:1.25rem 0; }
-    footer { text-align:center; font-size:0.8rem; color:#8899bb; padding:2rem 1rem 3rem; }
-  </style>
-</head>
-<body>
-
-<div class="header-bar"></div>
-<header>
-  <div class="header-inner">
-    <div class="course-label">CRJU 5004 · Statistics for Criminal Justice · Week 7</div>
-    <h1>Engagement Activity: <span>Five Steps Through a Regression Table</span></h1>
-    <div class="header-meta">
-      <strong>Type:</strong> Guided Output Interpretation &amp; Prediction Exercise &nbsp;|&nbsp;
-      <strong>Submission:</strong> Copy summary text into Canvas
-    </div>
-  </div>
-</header>
-
-<main>
-
-  <!-- OVERVIEW -->
-  <div class="card">
-    <h2>Overview &amp; Purpose</h2>
-    <p>Assignment 5 asks you to run and interpret a multiple OLS regression model — writing the equation, interpreting partial slope coefficients, assessing model fit, making a prediction, and evaluating multicollinearity. This activity walks you through every one of those tasks using a different dataset so you arrive at Assignment 5 having already practiced the full workflow.</p>
-    <p>The output below comes from a model predicting recidivism risk scores for a sample of individuals released from prison. Work through each step carefully. There is calculation involved — keep a scratch pad handy.</p>
-
-    <div class="info-box context">
-      <strong>Research Context</strong>
-      A state department of corrections wants to understand what predicts validated recidivism risk scores among individuals released from prison. The outcome variable is <strong>risk_score</strong> (a continuous scale from 0–100; higher scores indicate greater predicted risk of reoffending within three years). Three predictors are included: <strong>age_release</strong> (age in years at release), <strong>prior_convictions</strong> (total number of prior felony convictions), and <strong>months_served</strong> (length of the most recent sentence in months). Data are from a random sample of <strong>n = 180</strong> releases.
-    </div>
-
-    <div class="info-box tip">
-      <strong>The Five Steps — Applied to Every OLS Model</strong>
-      <span style="font-size:0.88rem; line-height:1.9;">
-        <strong>Step 1:</strong> Write the regression equation (Ŷ = a + b₁X₁ + … + bₖXₖ)<br>
-        <strong>Step 2:</strong> Interpret the partial slope coefficients (b) — direction, magnitude, "holding constant"<br>
-        <strong>Step 3:</strong> Assess overall model fit — F-test significance, R², Adjusted R²<br>
-        <strong>Step 4:</strong> Make a prediction — plug specific X values into the equation<br>
-        <strong>Step 5:</strong> Check multicollinearity — VIF values and what they mean
-      </span>
-    </div>
-
-    <div style="display:flex; gap:0.75rem; flex-wrap:wrap; margin-top:1rem;">
-      <span class="tag tag-slo">SLO 4 — Statistical Techniques</span>
-      <span class="tag tag-slo">SLO 5 — Interpretation</span>
-      <span class="tag tag-time">⏱ 45–55 min</span>
-    </div>
-  </div>
-
-  <!-- PROGRESS -->
-  <div class="card" style="padding:1.25rem 2rem;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
-      <span class="progress-label">Your progress</span>
-      <span class="progress-label" id="progress-text">0 of 4 sections complete</span>
-    </div>
-    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-bar"></div></div>
+  <!-- ── HEADER BANNER ─────────────────────────────────────────── -->
+  <div style="background-color: #1E3A5F; border-radius: 6px; padding: 28px 32px 22px 32px; margin-bottom: 28px;">
+    <p style="font-family: Calibri, Arial, sans-serif; font-size: 13px; font-weight: bold; color: #C9912F; margin: 0 0 6px 0; letter-spacing: 1.5px; text-transform: uppercase;">CRJU 1000 &nbsp;&middot;&nbsp; Week 7 Engagement Activity</p>
+    <h1 style="font-family: 'Trebuchet MS', Arial, sans-serif; font-size: 26px; font-weight: bold; color: #FFFFFF; margin: 0 0 8px 0; line-height: 1.25;">Concept Mapping: Barriers to Reentry</h1>
+    <p style="font-family: Calibri, Arial, sans-serif; font-size: 15px; color: #C8DCE8; margin: 0; font-style: italic;">25&ndash;30 minutes &middot; SLOs 1, 2, 4 &middot; Completion grade</p>
   </div>
 
 
-  <!-- THE OUTPUT — shown at top for reference throughout -->
-  <div class="section">
-    <div class="section-header">
-      <span class="section-num">Reference</span>
-      <h3>Stata OLS Output — Recidivism Risk Score Model (n = 180)</h3>
+  <!-- ── WHAT THIS ACTIVITY IS ─────────────────────────────────── -->
+  <div style="margin-bottom: 28px;">
+    <h2 style="font-family: 'Trebuchet MS', Arial, sans-serif; font-size: 21px; font-weight: bold; color: #1E3A5F; border-left: 5px solid #1D7A6E; padding-left: 12px; margin: 0 0 14px 0;">What This Activity Is</h2>
+
+    <p style="margin: 0 0 12px 0; line-height: 1.6;">A concept map is a visual way of laying out how different pieces of a system connect to each other. This week, the system is <strong>reentry</strong>: everything a person faces on the day they walk out of prison and back into the community.</p>
+
+    <div style="background-color: #1E3A5F; border-radius: 6px; padding: 18px 22px; margin-bottom: 12px;">
+      <p style="margin: 0 0 6px 0; font-family: 'Trebuchet MS', Arial, sans-serif; font-weight: bold; color: #C9912F; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">The Scenario</p>
+      <p style="margin: 0; color: #FFFFFF; line-height: 1.6;">A person has just been released after serving 5 years in prison for a nonviolent felony drug offense. They are heading back into their community today. What's waiting for them?</p>
     </div>
-    <div class="section-body">
-      <p style="font-size:0.88rem; color:var(--slate); margin-bottom:0.75rem;">This is the output you will work through in the four sections below. Return to it as often as you need. All numbers used in the questions come from this table.</p>
 
-      <div class="stata-block">
-        <div class="stata-cmd">. regress risk_score age_release prior_convictions months_served</div>
-        <div class="stata-body">
-<pre class="stata-out"><span class="head">      Source |       SS           df       MS           Number of obs =</span>   <span class="hi">180</span>
-<span class="head">─────────────+──────────────────────────────    F(3, 176)             =</span> <span class="hi">41.28</span>
-<span class="head">       Model |</span>  <span class="hi">18924.6</span>        <span class="dim">3</span>   <span class="hi">6308.2</span>    <span class="head">Prob > F              =</span> <span class="sig">0.0000</span>
-<span class="head">    Residual |</span>  <span class="dim">26872.4</span>      <span class="dim">176</span>    <span class="dim">152.7</span>    <span class="head">R-squared             =</span> <span class="hi">0.4131</span>
-<span class="head">─────────────+──────────────────────────────    Adj R-squared         =</span> <span class="hi">0.4031</span>
-<span class="head">       Total |</span>  <span class="dim">45797.0</span>      <span class="dim">179</span>    <span class="dim">255.9</span>    <span class="head">Root MSE              =</span>  <span class="dim">12.356</span>
+    <p style="margin: 0; line-height: 1.6;">You'll build a map of at least <strong>six barriers</strong> this person might face, spread across <strong>three categories</strong>: Employment, Housing, and Civil &amp; Legal Rights. For each barrier, you'll identify (1) which part of the system created or enforces it, and (2) which theory from the course best explains why it increases the likelihood of reoffending.</p>
+  </div>
 
-<span class="head">─────────────────────────────────────────────────────────────────────────────
-   risk_score |   Coef.   Std. Err.     t    P>|t|   [95% Conf. Interval]
-─────────────+───────────────────────────────────────────────────────────────</span>
-  age_release | <span class="hi">-0.742</span>     0.098    <span class="hi">-7.57</span>  <span class="sig">0.000</span>   <span class="dim">-0.936</span>      <span class="dim">-0.549</span>
-prior_conv~s | <span class="hi"> 4.218</span>     0.531     <span class="hi">7.95</span>  <span class="sig">0.000</span>   <span class="dim"> 3.169</span>      <span class="dim"> 5.266</span>
-months_served| <span class="hi">-0.183</span>     0.071    <span class="hi">-2.58</span>  <span class="sig">0.011</span>   <span class="dim">-0.323</span>      <span class="dim">-0.043</span>
-        _cons| <span class="hi">68.214</span>    4.882    <span class="hi">13.97</span>  <span class="sig">0.000</span>   <span class="dim">58.582</span>      <span class="dim">77.847</span>
-<span class="head">─────────────────────────────────────────────────────────────────────────────</span>
-</pre>
-        </div>
-      </div>
 
-      <div class="stata-block" style="margin-top:0.5rem;">
-        <div class="stata-cmd">. vif</div>
-        <div class="stata-body">
-<pre class="stata-out"><span class="head">    Variable |    VIF    1/VIF
-─────────────+─────────────────</span>
- age_release |  <span class="hi">1.44</span>   0.694
-prior_conv~s |  <span class="hi">1.38</span>   0.726
-months_served|  <span class="hi">1.19</span>   0.840
-─────────────+─────────────────</span>
-    Mean VIF |  <span class="hi">1.34</span>
-</pre>
-        </div>
-      </div>
+  <!-- ── BEFORE YOU BEGIN ───────────────────────────────────────── -->
+  <div style="margin-bottom: 28px;">
+    <h2 style="font-family: 'Trebuchet MS', Arial, sans-serif; font-size: 21px; font-weight: bold; color: #1E3A5F; border-left: 5px solid #1D7A6E; padding-left: 12px; margin: 0 0 14px 0;">Before You Begin</h2>
 
-      <!-- Quick annotation guide -->
-      <p style="font-size:0.88rem; font-weight:600; margin:1.25rem 0 0.5rem;">Quick reference — what each column means:</p>
-      <table class="anno-table">
-        <thead><tr><th>Column</th><th>What it shows</th><th>How to use it</th></tr></thead>
-        <tbody>
-          <tr><td class="code">Coef. (b)</td><td>Unstandardized partial slope</td><td>Change in risk_score per one-unit increase in that IV, <em>holding all other IVs constant</em></td></tr>
-          <tr><td class="code">Std. Err.</td><td>Standard error of b</td><td>Precision of the estimate; used to compute the t-statistic</td></tr>
-          <tr><td class="code">t</td><td>t-statistic for each IV</td><td>b / Std.Err. — how many SE's b is from zero</td></tr>
-          <tr><td class="code">P>|t|</td><td>Two-tailed p-value</td><td>If p &lt; .05 → reject H₀; that IV significantly predicts the DV</td></tr>
-          <tr><td class="code">[95% CI]</td><td>Confidence interval for b</td><td>If the interval excludes zero → significant (consistent with p-value)</td></tr>
-          <tr><td class="code">R-squared</td><td>Proportion of DV variance explained by the full model</td><td>Higher = better fit; multiply by 100 for percentage</td></tr>
-          <tr><td class="code">Adj R-squared</td><td>R² penalized for number of IVs</td><td>More honest than R²; use this for comparing models with different # of IVs</td></tr>
-          <tr><td class="code">F(k, n-k-1)</td><td>Overall model F-statistic</td><td>Tests whether the model as a whole explains significant variance</td></tr>
-          <tr><td class="code">VIF</td><td>Variance Inflation Factor</td><td>VIF &lt; 5: acceptable; 5–10: moderate concern; &gt;10: serious multicollinearity</td></tr>
-        </tbody>
-      </table>
+    <p style="margin: 0 0 12px 0; line-height: 1.6;">Each barrier on your map needs two annotations. Here's what each one is asking:</p>
+
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 12px;">
+      <tr>
+        <td style="width: 30%; padding: 10px 12px; border: 1px solid #DDE6EF; background-color: #1D7A6E; color: #FFFFFF; font-family: 'Trebuchet MS', Arial, sans-serif; font-weight: bold; font-size: 14px; vertical-align: top;">System Actor</td>
+        <td style="padding: 10px 12px; border: 1px solid #DDE6EF; background-color: #F7F9FC; font-size: 14.5px; line-height: 1.55;">Which part of the criminal justice system <strong>created or enforces</strong> this barrier? Choose from: <strong>law enforcement, courts, corrections,</strong> or <strong>legislation/policy</strong>. Many reentry barriers &mdash; like voting restrictions or public housing bans &mdash; come from legislation rather than from a specific agency's day-to-day operations.</td>
+      </tr>
+      <tr>
+        <td style="padding: 10px 12px; border: 1px solid #DDE6EF; background-color: #C9912F; color: #FFFFFF; font-family: 'Trebuchet MS', Arial, sans-serif; font-weight: bold; font-size: 14px; vertical-align: top;">Theory</td>
+        <td style="padding: 10px 12px; border: 1px solid #DDE6EF; background-color: #F7F9FC; font-size: 14.5px; line-height: 1.55;">Which theory &mdash; <strong>labeling, strain,</strong> or <strong>social bond</strong> &mdash; best explains why this barrier makes reoffending <em>more</em> likely? You covered all three earlier in the course; this week's lecture (Part B) walks through how each one applies to reentry specifically.</td>
+      </tr>
+    </table>
+
+    <div style="background-color: #F7EFDC; border-radius: 6px; padding: 12px 16px;">
+      <p style="margin: 0; line-height: 1.6; font-size: 14.5px;"><strong style="color: #C9912F;">Tip:</strong> If a theory connection doesn't click perfectly for a given barrier, pick whichever theory comes <em>closest</em>. The point of this activity is practicing the application &mdash; not finding one &ldquo;correct&rdquo; answer for every barrier.</p>
     </div>
   </div>
 
 
-  <!-- ══════════════════════════════════════════
-       SECTION 1: STEPS 1–2 — EQUATION & COEFFICIENTS
-  ══════════════════════════════════════════ -->
-  <div class="section">
-    <div class="section-header">
-      <span class="section-num">Section 01</span>
-      <h3>Steps 1 &amp; 2 — The Regression Equation &amp; Interpreting Coefficients</h3>
-    </div>
-    <div class="section-body">
+  <!-- ── HOW TO COMPLETE THIS ACTIVITY ─────────────────────────── -->
+  <div style="margin-bottom: 28px;">
+    <h2 style="font-family: 'Trebuchet MS', Arial, sans-serif; font-size: 21px; font-weight: bold; color: #1E3A5F; border-left: 5px solid #1D7A6E; padding-left: 12px; margin: 0 0 14px 0;">How to Complete This Activity</h2>
 
-      <!-- Step 1: Write the equation -->
-      <div class="step-block">
-        <div class="step-header"><span class="step-badge">Step 1</span><span>Write the regression equation</span></div>
-        <div class="step-body">
-          <p>Using the coefficients from the output above, fill in the regression equation. Enter each coefficient exactly as it appears (include the negative sign where applicable).</p>
-          <div class="info-box formula" style="margin-bottom:0.85rem;">
-            <strong>Equation Form</strong>
-            Ŷ = a + b₁(age_release) + b₂(prior_convictions) + b₃(months_served)
-          </div>
-          <div class="calc-row">
-            <span>Ŷ =</span>
-            <input class="calc-input wide" type="text" id="eq-intercept" placeholder="intercept (a)" oninput="chkEq()">
-            <span>+</span>
-            <input class="calc-input" type="text" id="eq-b1" placeholder="b₁" oninput="chkEq()">
-            <span>(age_release) +</span>
-            <input class="calc-input" type="text" id="eq-b2" placeholder="b₂" oninput="chkEq()">
-            <span>(prior_conv) +</span>
-            <input class="calc-input" type="text" id="eq-b3" placeholder="b₃" oninput="chkEq()">
-            <span>(months_served)</span>
-          </div>
-          <div class="feedback-msg" id="eq-fb"></div>
-        </div>
-      </div>
-
-      <!-- Step 2: Interpret coefficients -->
-      <div class="step-block">
-        <div class="step-header"><span class="step-badge">Step 2a</span><span>Interpret the age_release coefficient</span></div>
-        <div class="step-body">
-          <div class="q-label" style="font-weight:400; margin-bottom:0.75rem; font-size:0.88rem; color:var(--slate);">The coefficient for <strong>age_release</strong> is b = −0.742 (p &lt; .001). Select the best interpretation.</div>
-          <div class="radio-group">
-            <label><input type="radio" name="b-age" value="a"><span>For every additional year of age at release, the predicted risk score increases by 0.742 points, holding prior convictions and months served constant</span></label>
-            <label><input type="radio" name="b-age" value="b"><span>For every additional year of age at release, the predicted risk score decreases by 0.742 points, holding prior convictions and months served constant — older individuals at release tend to have lower predicted recidivism risk</span></label>
-            <label><input type="radio" name="b-age" value="c"><span>Individuals who are 0.742 years older at release have a significantly lower risk score</span></label>
-            <label><input type="radio" name="b-age" value="d"><span>Age at release is not a significant predictor of risk score</span></label>
-          </div>
-          <div class="feedback-msg" id="b-age-fb"></div>
-        </div>
-      </div>
-
-      <div class="step-block">
-        <div class="step-header"><span class="step-badge">Step 2b</span><span>Interpret the prior_convictions coefficient</span></div>
-        <div class="step-body">
-          <div class="q-label" style="font-weight:400; margin-bottom:0.75rem; font-size:0.88rem; color:var(--slate);">The coefficient for <strong>prior_convictions</strong> is b = 4.218 (p &lt; .001). Select the best interpretation.</div>
-          <div class="radio-group">
-            <label><input type="radio" name="b-prior" value="a"><span>Each additional prior felony conviction is associated with a 4.218-point increase in predicted risk score, holding age at release and months served constant</span></label>
-            <label><input type="radio" name="b-prior" value="b"><span>Individuals with prior convictions are 4.218 times more likely to recidivate than those without</span></label>
-            <label><input type="radio" name="b-prior" value="c"><span>Prior convictions reduce risk scores by 4.218 points for each additional conviction</span></label>
-            <label><input type="radio" name="b-prior" value="d"><span>The average risk score for people with prior convictions is 4.218 points</span></label>
-          </div>
-          <div class="feedback-msg" id="b-prior-fb"></div>
-        </div>
-      </div>
-
-      <div class="step-block">
-        <div class="step-header"><span class="step-badge">Step 2c</span><span>Interpreting months_served — significance and direction</span></div>
-        <div class="step-body">
-          <p>The coefficient for months_served is b = −0.183, p = .011. The 95% confidence interval is [−0.323, −0.043].</p>
-          <div class="q-label">Which of the following best interprets this coefficient?</div>
-          <div class="radio-group">
-            <label><input type="radio" name="b-months" value="a"><span>Months served is not significant because the coefficient (−0.183) is small and close to zero</span></label>
-            <label><input type="radio" name="b-months" value="b"><span>Each additional month served is associated with a 0.183-point decrease in predicted risk score, controlling for age and prior convictions — and the effect is statistically significant (p = .011), meaning we reject H₀ for this predictor</span></label>
-            <label><input type="radio" name="b-months" value="c"><span>Serving longer sentences increases risk scores because incarceration is criminogenic</span></label>
-            <label><input type="radio" name="b-months" value="d"><span>The confidence interval includes zero, so this coefficient is not statistically significant</span></label>
-          </div>
-          <div class="feedback-msg" id="b-months-fb"></div>
-        </div>
-      </div>
-
-      <div class="step-block">
-        <div class="step-header"><span class="step-badge">Step 2d</span><span>Written interpretation — plain language for a policy audience</span></div>
-        <div class="step-body">
-          <p>Written response (3–4 sentences): Write a plain-language interpretation of the three partial slopes for a parole board administrator who is not a statistician. For each predictor, state the direction of the effect, what a "one unit" change means in real terms, and whether the effect is statistically significant. Do not use the phrase "holding all other variables constant" — find a more accessible way to express that idea.</p>
-          <textarea class="response-area" id="s1-written" placeholder="For every additional year of age at the time of release..."></textarea>
-        </div>
-      </div>
-
-      <button class="btn btn-primary btn-sm" onclick="markSection(1)">Mark Section 1 Complete</button>
-      <div class="feedback-msg" id="s1-complete-fb" style="display:none; margin-top:0.75rem;"></div>
-    </div>
+    <table style="width: 100%; border-collapse: collapse;">
+      <tr>
+        <td style="width: 36px; padding: 10px 12px; border: 1px solid #DDE6EF; background-color: #1E3A5F; color: #FFFFFF; font-family: 'Trebuchet MS', Arial, sans-serif; font-weight: bold; font-size: 16px; text-align: center; vertical-align: top;">1</td>
+        <td style="padding: 10px 12px; border: 1px solid #DDE6EF; background-color: #F7F9FC; font-size: 14.5px; line-height: 1.6;">Open the interactive mapping tool: <a href="[GITHUB_PAGES_URL]" style="color: #1E3A5F;">Concept Mapping: Barriers to Reentry</a>. It opens in a new tab.</td>
+      </tr>
+      <tr>
+        <td style="padding: 10px 12px; border: 1px solid #DDE6EF; background-color: #1E3A5F; color: #FFFFFF; font-family: 'Trebuchet MS', Arial, sans-serif; font-weight: bold; font-size: 16px; text-align: center; vertical-align: top;">2</td>
+        <td style="padding: 10px 12px; border: 1px solid #DDE6EF; background-color: #F7F9FC; font-size: 14.5px; line-height: 1.6;">Read the scenario, then build your map. Add barriers to each of the three categories using <strong>+ Add Barrier</strong>. For each one, write a short description and select a system actor and a theory from the dropdowns. The tool tracks your progress and tells you what's still needed.</td>
+      </tr>
+      <tr>
+        <td style="padding: 10px 12px; border: 1px solid #DDE6EF; background-color: #1E3A5F; color: #FFFFFF; font-family: 'Trebuchet MS', Arial, sans-serif; font-weight: bold; font-size: 16px; text-align: center; vertical-align: top;">3</td>
+        <td style="padding: 10px 12px; border: 1px solid #DDE6EF; background-color: #F7F9FC; font-size: 14.5px; line-height: 1.6;">Once you have at least 6 complete barriers with at least one in each category, move on to the reflection question and write your two sentences.</td>
+      </tr>
+      <tr>
+        <td style="padding: 10px 12px; border: 1px solid #DDE6EF; background-color: #1E3A5F; color: #FFFFFF; font-family: 'Trebuchet MS', Arial, sans-serif; font-weight: bold; font-size: 16px; text-align: center; vertical-align: top;">4</td>
+        <td style="padding: 10px 12px; border: 1px solid #DDE6EF; background-color: #F7F9FC; font-size: 14.5px; line-height: 1.6;">On the final screen, use <strong>Copy Summary</strong> to copy a structured written version of your map and reflection.</td>
+      </tr>
+      <tr>
+        <td style="padding: 10px 12px; border: 1px solid #DDE6EF; background-color: #1E3A5F; color: #FFFFFF; font-family: 'Trebuchet MS', Arial, sans-serif; font-weight: bold; font-size: 16px; text-align: center; vertical-align: top;">5</td>
+        <td style="padding: 10px 12px; border: 1px solid #DDE6EF; background-color: #F7F9FC; font-size: 14.5px; line-height: 1.6;">Submit on this assignment page using <strong>any</strong> of the formats described below.</td>
+      </tr>
+    </table>
   </div>
 
 
-  <!-- ══════════════════════════════════════════
-       SECTION 2: STEP 3 — MODEL FIT
-  ══════════════════════════════════════════ -->
-  <div class="section">
-    <div class="section-header">
-      <span class="section-num">Section 02</span>
-      <h3>Step 3 — Overall Model Fit: F-Test, R², and Adjusted R²</h3>
-    </div>
-    <div class="section-body">
+  <!-- ── SUBMISSION FORMATS ─────────────────────────────────────── -->
+  <div style="margin-bottom: 28px;">
+    <h2 style="font-family: 'Trebuchet MS', Arial, sans-serif; font-size: 21px; font-weight: bold; color: #1E3A5F; border-left: 5px solid #1D7A6E; padding-left: 12px; margin: 0 0 14px 0;">Submission &mdash; Choose Any Format</h2>
 
-      <div class="step-block">
-        <div class="step-header"><span class="step-badge">Step 3a</span><span>Is the overall model statistically significant?</span></div>
-        <div class="step-body">
-          <div class="radio-group">
-            <label><input type="radio" name="f-test" value="a"><span>No — at least one predictor is not significant, so the overall model fails</span></label>
-            <label><input type="radio" name="f-test" value="b"><span>Yes — F(3, 176) = 41.28, p &lt; .001 indicates the model as a whole explains a statistically significant amount of variance in risk scores; we reject the null hypothesis that all slopes equal zero</span></label>
-            <label><input type="radio" name="f-test" value="c"><span>The F-test is not relevant for models with fewer than five predictors</span></label>
-            <label><input type="radio" name="f-test" value="d"><span>Cannot be determined without knowing the critical F value from a table</span></label>
-          </div>
-          <div class="feedback-msg" id="f-test-fb"></div>
-        </div>
-      </div>
+    <p style="margin: 0 0 12px 0; line-height: 1.6;">The interactive tool is one way to build your map, but it isn't the only way to submit it. Choose whichever of these three formats works best for you:</p>
 
-      <div class="step-block">
-        <div class="step-header"><span class="step-badge">Step 3b</span><span>Interpret R² and Adjusted R²</span></div>
-        <div class="step-body">
-          <p>R² = .4131 and Adjusted R² = .4031.</p>
-          <div class="q-label">Which statement correctly interprets both statistics?</div>
-          <div class="radio-group">
-            <label><input type="radio" name="r2" value="a"><span>The model explains 41.31% of the variance in risk scores; the Adjusted R² (.4031) is slightly lower because it penalizes for the number of predictors, giving a more conservative estimate of fit</span></label>
-            <label><input type="radio" name="r2" value="b"><span>R² = .4131 means 41.31% of individuals in the sample were correctly classified as high-risk</span></label>
-            <label><input type="radio" name="r2" value="c"><span>The two values should be identical — a difference indicates a calculation error</span></label>
-            <label><input type="radio" name="r2" value="d"><span>An R² of .41 is too low to be a useful model in criminal justice research</span></label>
-          </div>
-          <div class="feedback-msg" id="r2-fb"></div>
-        </div>
-      </div>
-
-      <div class="step-block">
-        <div class="step-header"><span class="step-badge">Step 3c</span><span>What does R² = .41 leave unexplained?</span></div>
-        <div class="step-body">
-          <div class="q-label">If R² = .4131, what proportion of the variance in risk scores is <em>not</em> explained by this model? Enter as a percentage, rounded to one decimal place.</div>
-          <div class="calc-row">
-            <span>Unexplained variance =</span>
-            <input class="calc-input" type="number" step="0.1" id="unexplained" placeholder="?" oninput="chkUnexplained()">
-            <span>%</span>
-          </div>
-          <div class="feedback-msg" id="unexplained-fb"></div>
-          <p style="margin-top:0.75rem;">This unexplained variance represents factors not included in the model — employment status, housing stability, substance use history, mental health, and dozens of other variables that influence recidivism risk but are absent from this model.</p>
-        </div>
-      </div>
-
-      <button class="btn btn-primary btn-sm" onclick="markSection(2)">Mark Section 2 Complete</button>
-      <div class="feedback-msg" id="s2-complete-fb" style="display:none; margin-top:0.75rem;"></div>
-    </div>
+    <table style="width: 100%; border-collapse: collapse;">
+      <tr>
+        <td style="width: 30%; padding: 10px 12px; border: 1px solid #DDE6EF; background-color: #1D7A6E; color: #FFFFFF; font-family: 'Trebuchet MS', Arial, sans-serif; font-weight: bold; font-size: 14px; vertical-align: top;">Structured Written List</td>
+        <td style="padding: 10px 12px; border: 1px solid #DDE6EF; background-color: #F7F9FC; font-size: 14.5px; line-height: 1.55;">Use the interactive tool, then paste the <strong>Copy Summary</strong> output directly into the text-entry box on this assignment page.</td>
+      </tr>
+      <tr>
+        <td style="padding: 10px 12px; border: 1px solid #DDE6EF; background-color: #C9912F; color: #FFFFFF; font-family: 'Trebuchet MS', Arial, sans-serif; font-weight: bold; font-size: 14px; vertical-align: top;">Digital Diagram</td>
+        <td style="padding: 10px 12px; border: 1px solid #DDE6EF; background-color: #F7F9FC; font-size: 14.5px; line-height: 1.55;">Build your map in a tool you already use &mdash; PowerPoint, Google Slides, Jamboard, Miro, or similar &mdash; with each barrier labeled by category, system actor, and theory. Upload the file or a screenshot/PDF.</td>
+      </tr>
+      <tr>
+        <td style="padding: 10px 12px; border: 1px solid #DDE6EF; background-color: #A8444B; color: #FFFFFF; font-family: 'Trebuchet MS', Arial, sans-serif; font-weight: bold; font-size: 14px; vertical-align: top;">Hand-Drawn Map</td>
+        <td style="padding: 10px 12px; border: 1px solid #DDE6EF; background-color: #F7F9FC; font-size: 14.5px; line-height: 1.55;">Sketch your map on paper &mdash; central scenario, three branches, barriers with their annotations &mdash; and upload a clear photo.</td>
+      </tr>
+    </table>
   </div>
 
 
-  <!-- ══════════════════════════════════════════
-       SECTION 3: STEP 4 — PREDICTION
-  ══════════════════════════════════════════ -->
-  <div class="section">
-    <div class="section-header">
-      <span class="section-num">Section 03</span>
-      <h3>Step 4 — Making a Prediction from the Regression Equation</h3>
-    </div>
-    <div class="section-body">
+  <!-- ── GRADING ────────────────────────────────────────────────── -->
+  <div style="margin-bottom: 12px;">
+    <h2 style="font-family: 'Trebuchet MS', Arial, sans-serif; font-size: 21px; font-weight: bold; color: #1E3A5F; border-left: 5px solid #1D7A6E; padding-left: 12px; margin: 0 0 14px 0;">Grading</h2>
 
-      <div class="info-box context">
-        <strong>Prediction Scenario</strong>
-        A parole board is reviewing a case. The individual is <strong>34 years old at release</strong>, has <strong>3 prior felony convictions</strong>, and served <strong>28 months</strong> on the current sentence. Using the regression equation from Step 1, calculate the predicted risk score for this individual.
-      </div>
+    <p style="margin: 0 0 10px 0; line-height: 1.6;">This activity is graded on <strong>completion</strong>. To receive credit, your submission &mdash; in whatever format &mdash; needs to include:</p>
 
-      <div class="step-block">
-        <div class="step-header"><span class="step-badge">Step 4a</span><span>Build the prediction step by step</span></div>
-        <div class="step-body">
-          <p>Work through each term of the equation. Enter each calculated value and show your arithmetic in the scratch boxes.</p>
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 12px;">
+      <tr>
+        <td style="width: 32px; padding: 8px 10px; border: 1px solid #DDE6EF; background-color: #F7F9FC; text-align: center; font-size: 16px;">&#9744;</td>
+        <td style="padding: 8px 10px; border: 1px solid #DDE6EF; background-color: #F7F9FC; font-size: 14.5px;">At least 6 barriers, with at least 1 in each of the 3 categories (Employment, Housing, Civil &amp; Legal Rights)</td>
+      </tr>
+      <tr>
+        <td style="width: 32px; padding: 8px 10px; border: 1px solid #DDE6EF; background-color: #F7F9FC; text-align: center; font-size: 16px;">&#9744;</td>
+        <td style="padding: 8px 10px; border: 1px solid #DDE6EF; background-color: #F7F9FC; font-size: 14.5px;">Every barrier has a system actor (law enforcement, courts, corrections, or legislation/policy)</td>
+      </tr>
+      <tr>
+        <td style="width: 32px; padding: 8px 10px; border: 1px solid #DDE6EF; background-color: #F7F9FC; text-align: center; font-size: 16px;">&#9744;</td>
+        <td style="padding: 8px 10px; border: 1px solid #DDE6EF; background-color: #F7F9FC; font-size: 14.5px;">Every barrier has a theory (labeling, strain, or social bond)</td>
+      </tr>
+      <tr>
+        <td style="width: 32px; padding: 8px 10px; border: 1px solid #DDE6EF; background-color: #F7F9FC; text-align: center; font-size: 16px;">&#9744;</td>
+        <td style="padding: 8px 10px; border: 1px solid #DDE6EF; background-color: #F7F9FC; font-size: 14.5px;">A two-sentence reflection on which barrier you'd address first, and why</td>
+      </tr>
+    </table>
 
-          <div style="font-size:0.88rem; font-weight:600; margin-bottom:0.5rem;">Term 1: Intercept (a)</div>
-          <div class="calc-row" style="margin-bottom:1rem;">
-            <span>a =</span>
-            <input class="calc-input wide" type="number" step="0.001" id="pred-a" placeholder="constant value" oninput="chkPred()">
-          </div>
-
-          <div style="font-size:0.88rem; font-weight:600; margin-bottom:0.5rem;">Term 2: b₁ × age_release = −0.742 × 34</div>
-          <div class="calc-row" style="margin-bottom:1rem;">
-            <span>−0.742 × 34 =</span>
-            <input class="calc-input" type="number" step="0.001" id="pred-t2" placeholder="?" oninput="chkPred()">
-          </div>
-
-          <div style="font-size:0.88rem; font-weight:600; margin-bottom:0.5rem;">Term 3: b₂ × prior_convictions = 4.218 × 3</div>
-          <div class="calc-row" style="margin-bottom:1rem;">
-            <span>4.218 × 3 =</span>
-            <input class="calc-input" type="number" step="0.001" id="pred-t3" placeholder="?" oninput="chkPred()">
-          </div>
-
-          <div style="font-size:0.88rem; font-weight:600; margin-bottom:0.5rem;">Term 4: b₃ × months_served = −0.183 × 28</div>
-          <div class="calc-row" style="margin-bottom:1rem;">
-            <span>−0.183 × 28 =</span>
-            <input class="calc-input" type="number" step="0.001" id="pred-t4" placeholder="?" oninput="chkPred()">
-          </div>
-
-          <div style="font-size:0.88rem; font-weight:600; margin-bottom:0.5rem;">Final Predicted Score: Sum all four terms</div>
-          <div class="calc-row">
-            <span>Ŷ =</span>
-            <input class="calc-input" type="number" step="0.01" id="pred-yhat" placeholder="?" oninput="chkPred()">
-          </div>
-          <div class="feedback-msg" id="pred-fb"></div>
-        </div>
-      </div>
-
-      <div class="step-block">
-        <div class="step-header"><span class="step-badge">Step 4b</span><span>Interpret the prediction in context</span></div>
-        <div class="step-body">
-          <p>The risk score scale runs from 0 to 100, with higher scores indicating greater predicted risk. The sample mean risk score is 48.3.</p>
-          <div class="q-label">Written response (2–3 sentences): What does the predicted score for this individual tell the parole board? Is this person above or below average risk? What should the board understand about the limitations of using a regression-predicted score in an individual case decision?</div>
-          <textarea class="response-area" id="s3-written" placeholder="The predicted risk score of approximately ... is [above/below] the sample mean of 48.3..."></textarea>
-        </div>
-      </div>
-
-      <button class="btn btn-primary btn-sm" onclick="markSection(3)">Mark Section 3 Complete</button>
-      <div class="feedback-msg" id="s3-complete-fb" style="display:none; margin-top:0.75rem;"></div>
+    <div style="background-color: #F7F9FC; border: 1px solid #DDE6EF; border-radius: 6px; padding: 12px 16px;">
+      <p style="margin: 0; line-height: 1.6; font-size: 13.5px; color: #666666;"><strong>A note on AI use:</strong> This activity works best as your own first attempt &mdash; the value is in practicing the connection between a real-world barrier and a theory you've learned. If you use AI tools at any stage, follow the course AI-use policy and be prepared to explain your reasoning for any annotation in your own words.</p>
     </div>
   </div>
 
-
-  <!-- ══════════════════════════════════════════
-       SECTION 4: STEP 5 — VIF & WRITING UP
-  ══════════════════════════════════════════ -->
-  <div class="section">
-    <div class="section-header">
-      <span class="section-num">Section 04</span>
-      <h3>Step 5 — Multicollinearity, Model Limitations &amp; Writing Up Results</h3>
-    </div>
-    <div class="section-body">
-
-      <div class="step-block">
-        <div class="step-header"><span class="step-badge">Step 5a</span><span>Evaluate multicollinearity using VIF</span></div>
-        <div class="step-body">
-          <p>The VIF output shows: age_release = 1.44, prior_convictions = 1.38, months_served = 1.19, Mean VIF = 1.34.</p>
-          <div class="radio-group">
-            <label><input type="radio" name="vif" value="a"><span>All VIF values exceed the threshold of 10, indicating serious multicollinearity that invalidates the model</span></label>
-            <label><input type="radio" name="vif" value="b"><span>All VIF values are well below 5 — multicollinearity is not a concern in this model. The predictors share little overlapping variance, meaning the partial slopes can be interpreted with confidence</span></label>
-            <label><input type="radio" name="vif" value="c"><span>VIF values below 2.0 always indicate perfect independence between predictors</span></label>
-            <label><input type="radio" name="vif" value="d"><span>The mean VIF of 1.34 is too low — we should add more predictors to increase the VIF to an acceptable level</span></label>
-          </div>
-          <div class="feedback-msg" id="vif-fb"></div>
-        </div>
-      </div>
-
-      <div class="step-block">
-        <div class="step-header"><span class="step-badge">Step 5b</span><span>Compare b values — which predictor has the largest raw effect?</span></div>
-        <div class="step-body">
-          <p>Looking at the unstandardized coefficients: age_release b = −0.742, prior_convictions b = 4.218, months_served b = −0.183.</p>
-          <div class="q-label">A colleague says prior_convictions has the largest effect because b = 4.218 is the biggest number. Is this a fair comparison? Why or why not?</div>
-          <div class="radio-group">
-            <label><input type="radio" name="beta-q" value="a"><span>Yes — the coefficient with the largest absolute value always indicates the strongest predictor regardless of how variables are measured</span></label>
-            <label><input type="radio" name="beta-q" value="b"><span>Not necessarily — unstandardized b values are in the original units of each variable (years, count, months), so comparing their magnitudes directly is not meaningful. Standardized beta weights (β) are needed to fairly compare the relative strength of each predictor</span></label>
-            <label><input type="radio" name="beta-q" value="c"><span>The comparison is fair because all three variables are measured at the ratio level</span></label>
-            <label><input type="radio" name="beta-q" value="d"><span>b values can only be compared when all IVs have the same sample mean</span></label>
-          </div>
-          <div class="feedback-msg" id="beta-q-fb"></div>
-        </div>
-      </div>
-
-      <div class="step-block">
-        <div class="step-header"><span class="step-badge">Step 5c</span><span>Write the full results paragraph</span></div>
-        <div class="step-body">
-          <p>Written response (4–5 sentences in APA style): Write a complete results paragraph for this regression model as it would appear in a research paper. Your paragraph must include: (1) the overall F-test and model significance, (2) R² and Adjusted R², (3) the interpretation of each significant partial slope coefficient with direction and magnitude, (4) a note on multicollinearity, and (5) one substantive limitation of the model.</p>
-          <p style="font-size:0.82rem; color:var(--slate);">APA format for regression: F(df₁, df₂) = value, p [comparison] .05, R² = value. For each b: b = value, p = value.</p>
-          <textarea class="response-area" id="s4-written" placeholder="A multiple OLS regression was conducted to predict recidivism risk scores... The overall model was statistically significant, F(3, 176) = 41.28, p < .001, R² = .41..." style="min-height:130px;"></textarea>
-        </div>
-      </div>
-
-      <button class="btn btn-primary btn-sm" onclick="markSection(4)">Mark Section 4 Complete</button>
-      <div class="feedback-msg" id="s4-complete-fb" style="display:none; margin-top:0.75rem;"></div>
-    </div>
-  </div>
-
-
-  <!-- SUBMISSION -->
-  <div id="submission-section">
-    <div class="submission-box">
-      <h2>Generate Your Submission Summary</h2>
-      <p>Click below to generate a summary of your responses. Copy the full text block and paste it into the Canvas text entry box for this activity.</p>
-      <p style="color:#f0dfa0;"><strong>Note:</strong> This activity mirrors Assignment 5 step-for-step using a different dataset. Your answers here are your own practice — the assignment will use the Colorado county crime data and require you to run the model yourself. The interpretation skills are identical.</p>
-      <button class="btn btn-gold" onclick="generateSummary()">Generate Submission Text</button>
-      <div id="submission-output"></div>
-      <div style="text-align:right; display:none;" id="copy-wrap">
-        <button class="btn btn-outline btn-sm" onclick="copyToClipboard()">Copy to Clipboard</button>
-      </div>
-    </div>
-  </div>
-
-</main>
-
-<footer>
-  CRJU 5004 · Statistics for Criminal Justice <br>
-  Week 7 Engagement Activity
-</footer>
-
-<script>
-  // ─── EQUATION CHECK ─────────────────────────────────────────────────
-  function chkEq() {
-    const a = document.getElementById('eq-intercept').value.trim().replace(/\s/g,'');
-    const b1 = document.getElementById('eq-b1').value.trim().replace(/\s/g,'');
-    const b2 = document.getElementById('eq-b2').value.trim().replace(/\s/g,'');
-    const b3 = document.getElementById('eq-b3').value.trim().replace(/\s/g,'');
-    if (!a || !b1 || !b2 || !b3) return;
-
-    const aOk  = Math.abs(parseFloat(a)  - 68.214) < 0.05;
-    const b1Ok = Math.abs(parseFloat(b1) - (-0.742)) < 0.005;
-    const b2Ok = Math.abs(parseFloat(b2) - 4.218)   < 0.005;
-    const b3Ok = Math.abs(parseFloat(b3) - (-0.183)) < 0.005;
-
-    ['eq-intercept','eq-b1','eq-b2','eq-b3'].forEach((id,i) => {
-      const ok = [aOk,b1Ok,b2Ok,b3Ok][i];
-      document.getElementById(id).className = 'calc-input' + (ok ? ' correct' : ' wrong') + (id==='eq-intercept' ? ' wide' : '');
-    });
-
-    const fb = document.getElementById('eq-fb');
-    if (aOk && b1Ok && b2Ok && b3Ok) {
-      fb.className = 'feedback-msg correct';
-      fb.textContent = '✓ Correct. Full equation: Ŷ = 68.214 + (−0.742)(age_release) + 4.218(prior_convictions) + (−0.183)(months_served)';
-    } else {
-      fb.className = 'feedback-msg incorrect';
-      fb.textContent = '✗ One or more values are off. Double-check the Coef. column in the output above. The intercept is the _cons row (68.214).';
-    }
-    fb.style.display = 'block';
-  }
-
-  // ─── RADIO ANSWERS ──────────────────────────────────────────────────
-  const radioAnswers = {
-    'b-age':   { c:'b', ok:'✓ Correct. The negative sign on b = −0.742 means that as age at release increases, predicted risk score decreases. Holding prior convictions and months served constant, each additional year of age at release is associated with a 0.742-point lower predicted risk score — consistent with the well-established finding that older individuals recidivate at lower rates.', no:'✗ Not quite. The negative coefficient tells you the direction: as age increases, risk score decreases. The magnitude is 0.742 points per year, and it is significant (p < .001).' },
-    'b-prior': { c:'a', ok:'✓ Correct. b = 4.218 means each additional prior felony conviction is associated with a 4.218-point higher predicted risk score, holding age at release and months served constant. The 95% CI [3.169, 5.266] confirms this estimate is precise and excludes zero.', no:'✗ Not quite. The interpretation of a partial slope is: for each one-unit increase in X, Y changes by b, holding other IVs constant. Prior convictions is measured in counts, so "one unit" = one additional prior conviction.' },
-    'b-months':{ c:'b', ok:'✓ Correct. p = .011 is below .05, so we reject H₀ for this coefficient — it is statistically significant. The negative slope means that each additional month served is associated with a 0.183-point lower predicted risk score. Note: the confidence interval [−0.323, −0.043] excludes zero, confirming significance.', no:'✗ Not quite. Check the p-value (.011 < .05) — this is significant. The CI [−0.323, −0.043] also excludes zero, confirming significance. The coefficient is small in magnitude but statistically meaningful.' },
-    'f-test':  { c:'b', ok:'✓ Correct. F(3, 176) = 41.28, p < .001 — the overall model is statistically significant. The null hypothesis for the F-test is that all partial slopes simultaneously equal zero. Rejecting it means at least one predictor adds significant explanatory power.', no:'✗ Not quite. The F-test tests the full model, not individual predictors. p < .001 is far below α = .05, so we reject H₀ for the overall model.' },
-    'r2':      { c:'a', ok:'✓ Correct. R² = .4131 means the three predictors together explain 41.3% of the variance in risk scores. Adjusted R² (.4031) is slightly lower because it penalizes for the number of IVs — it is the more honest estimate for comparing models. The difference here is small (about 1 percentage point), suggesting the model is not overfitted.', no:'✗ Not quite. R² = .41 means 41% of the variance in the DV is explained by the IVs combined. Adjusted R² applies a penalty for each added predictor — always slightly lower than R².' },
-    'vif':     { c:'b', ok:'✓ Correct. All three VIF values are below 2.0, well below the concern threshold of 5 (and far below the critical threshold of 10). This means the predictors share very little overlapping variance, and the partial slope coefficients are estimated with minimal distortion from multicollinearity.', no:'✗ Not quite. VIF values: acceptable < 5, moderate concern 5–10, serious > 10. All values here (1.19–1.44) are far below any concern threshold.' },
-    'beta-q':  { c:'b', ok:'✓ Correct. Unstandardized b coefficients reflect the units of each variable — one year for age, one conviction for prior record, one month for sentence length. Because these scales differ, comparing b = 4.218 (convictions) to b = −0.742 (years) is like comparing apples to oranges. Standardized beta weights (β) rescale all variables to standard deviation units, allowing fair comparison.', no:'✗ Not quite. The units of measurement matter. A one-unit change in "prior convictions" (one conviction) is not comparable to a one-unit change in "age_release" (one year). Standardized betas are needed for comparisons across predictors.' },
-  };
-
-  function wireRadios() {
-    Object.keys(radioAnswers).forEach(name => {
-      document.querySelectorAll(`input[name="${name}"]`).forEach(r => {
-        r.addEventListener('change', function() {
-          const a = radioAnswers[name];
-          const fb = document.getElementById(name + '-fb');
-          const ok = this.value === a.c;
-          fb.className = 'feedback-msg ' + (ok ? 'correct' : 'incorrect');
-          fb.textContent = ok ? a.ok : a.no;
-          fb.style.display = 'block';
-        });
-      });
-    });
-  }
-  wireRadios();
-
-  // ─── UNEXPLAINED VARIANCE ────────────────────────────────────────────
-  function chkUnexplained() {
-    const v = parseFloat(document.getElementById('unexplained').value);
-    const fb = document.getElementById('unexplained-fb');
-    if (isNaN(v)) return;
-    const ok = Math.abs(v - 58.7) < 0.3;
-    document.getElementById('unexplained').className = 'calc-input ' + (ok ? 'correct' : 'wrong');
-    fb.className = 'feedback-msg ' + (ok ? 'correct' : 'incorrect');
-    fb.textContent = ok
-      ? '✓ Correct. 1 − R² = 1 − .4131 = .5869 → 58.7% of the variance in risk scores is unexplained by this model.'
-      : '✗ Not quite. Unexplained variance = (1 − R²) × 100 = (1 − .4131) × 100 = 58.7%.';
-    fb.style.display = 'block';
-  }
-
-  // ─── PREDICTION CHECKS ──────────────────────────────────────────────
-  function chkPred() {
-    const aV  = parseFloat(document.getElementById('pred-a').value);
-    const t2V = parseFloat(document.getElementById('pred-t2').value);
-    const t3V = parseFloat(document.getElementById('pred-t3').value);
-    const t4V = parseFloat(document.getElementById('pred-t4').value);
-    const yV  = parseFloat(document.getElementById('pred-yhat').value);
-
-    const aOk  = !isNaN(aV)  && Math.abs(aV  - 68.214)  < 0.05;
-    const t2Ok = !isNaN(t2V) && Math.abs(t2V - (-25.228)) < 0.05;
-    const t3Ok = !isNaN(t3V) && Math.abs(t3V - 12.654)  < 0.05;
-    const t4Ok = !isNaN(t4V) && Math.abs(t4V - (-5.124)) < 0.05;
-    // Expected Ŷ = 68.214 − 25.228 + 12.654 − 5.124 = 50.516
-    const yOk  = !isNaN(yV)  && Math.abs(yV  - 50.516)  < 0.2;
-
-    if (!isNaN(aV))  document.getElementById('pred-a').className  = 'calc-input wide ' + (aOk  ? 'correct':'wrong');
-    if (!isNaN(t2V)) document.getElementById('pred-t2').className = 'calc-input '      + (t2Ok ? 'correct':'wrong');
-    if (!isNaN(t3V)) document.getElementById('pred-t3').className = 'calc-input '      + (t3Ok ? 'correct':'wrong');
-    if (!isNaN(t4V)) document.getElementById('pred-t4').className = 'calc-input '      + (t4Ok ? 'correct':'wrong');
-    if (!isNaN(yV))  document.getElementById('pred-yhat').className= 'calc-input '     + (yOk  ? 'correct':'wrong');
-
-    const fb = document.getElementById('pred-fb');
-    if (aOk && t2Ok && t3Ok && t4Ok && yOk) {
-      fb.className = 'feedback-msg correct';
-      fb.textContent = '✓ Correct. Ŷ = 68.214 + (−0.742 × 34) + (4.218 × 3) + (−0.183 × 28) = 68.214 − 25.228 + 12.654 − 5.124 = 50.52. This person\'s predicted risk score is approximately 50.5 — just slightly above the sample mean of 48.3.';
-    } else if (!isNaN(aV) || !isNaN(t2V) || !isNaN(t3V) || !isNaN(t4V) || !isNaN(yV)) {
-      fb.className = 'feedback-msg info';
-      fb.textContent = 'Check your arithmetic for each term. Expected values: Term 2 = −0.742×34 = −25.228; Term 3 = 4.218×3 = 12.654; Term 4 = −0.183×28 = −5.124; Final Ŷ ≈ 50.52.';
-    }
-    fb.style.display = 'block';
-  }
-
-  // ─── SECTION COMPLETION ─────────────────────────────────────────────
-  const sectionComplete = {1:false, 2:false, 3:false, 4:false};
-  function markSection(n) {
-    const writtenMap = {1:'s1-written', 2:null, 3:'s3-written', 4:'s4-written'};
-    const fb_el = document.getElementById(`s${n}-complete-fb`);
-
-    if (n === 2) {
-      // Section 2 has no written response — just check the three radio/input questions
-      const f_ok = document.querySelector('input[name="f-test"]:checked');
-      const r_ok = document.querySelector('input[name="r2"]:checked');
-      const u_ok = document.getElementById('unexplained').value.trim();
-      if (!f_ok || !r_ok || !u_ok) {
-        fb_el.className = 'feedback-msg incorrect';
-        fb_el.textContent = 'Please answer all three questions in Section 2 before marking it complete.';
-        fb_el.style.display = 'block';
-        return;
-      }
-    } else {
-      const written = document.getElementById(writtenMap[n]).value.trim();
-      if (written.length < 60) {
-        fb_el.className = 'feedback-msg incorrect';
-        fb_el.textContent = 'Please complete the written response before marking this section done.';
-        fb_el.style.display = 'block';
-        return;
-      }
-    }
-
-    sectionComplete[n] = true;
-    fb_el.className = 'feedback-msg correct';
-    fb_el.textContent = `✓ Section ${n} marked complete.`;
-    fb_el.style.display = 'block';
-    const done = Object.values(sectionComplete).filter(Boolean).length;
-    document.getElementById('progress-bar').style.width = Math.round(done/4*100) + '%';
-    document.getElementById('progress-text').textContent = `${done} of 4 sections complete`;
-    if (done >= 1) document.getElementById('submission-section').style.display = 'block';
-  }
-
-  // ─── SUBMISSION ─────────────────────────────────────────────────────
-  function inputVal(id) { const el = document.getElementById(id); return el ? (el.value.trim() || '[not entered]') : '[not entered]'; }
-  function radio(name) { const el = document.querySelector(`input[name="${name}"]:checked`); return el ? (el.parentElement.querySelector('span')?.textContent?.trim().substring(0,80)+'…' || el.value) : '[not answered]'; }
-  function txt(id) { const el = document.getElementById(id); return el ? (el.value.trim() || '[not answered]') : '[not answered]'; }
-
-  function generateSummary() {
-    const now = new Date().toLocaleString();
-    let t = `CRJU 5004 — Week 7 Engagement Activity: Five Steps Through a Regression Table\n`;
-    t += `Submitted: ${now}\n${'='.repeat(65)}\n\n`;
-
-    t += `SECTION 1: Equation & Coefficient Interpretation\n${'-'.repeat(50)}\n`;
-    t += `Equation — Intercept (a): ${inputVal('eq-intercept')}\n`;
-    t += `Equation — b₁ (age_release): ${inputVal('eq-b1')}\n`;
-    t += `Equation — b₂ (prior_convictions): ${inputVal('eq-b2')}\n`;
-    t += `Equation — b₃ (months_served): ${inputVal('eq-b3')}\n`;
-    t += `age_release interpretation: ${radio('b-age')}\n`;
-    t += `prior_convictions interpretation: ${radio('b-prior')}\n`;
-    t += `months_served interpretation: ${radio('b-months')}\n`;
-    t += `Written plain-language interpretation:\n${txt('s1-written')}\n\n`;
-
-    t += `SECTION 2: Model Fit\n${'-'.repeat(50)}\n`;
-    t += `F-test significance: ${radio('f-test')}\n`;
-    t += `R² / Adj R² interpretation: ${radio('r2')}\n`;
-    t += `Unexplained variance: ${inputVal('unexplained')}%\n\n`;
-
-    t += `SECTION 3: Prediction\n${'-'.repeat(50)}\n`;
-    t += `Intercept term: ${inputVal('pred-a')}\n`;
-    t += `Term 2 (age, −0.742 × 34): ${inputVal('pred-t2')}\n`;
-    t += `Term 3 (prior, 4.218 × 3): ${inputVal('pred-t3')}\n`;
-    t += `Term 4 (months, −0.183 × 28): ${inputVal('pred-t4')}\n`;
-    t += `Predicted Ŷ: ${inputVal('pred-yhat')}\n`;
-    t += `Written prediction interpretation:\n${txt('s3-written')}\n\n`;
-
-    t += `SECTION 4: Multicollinearity, Betas & Write-Up\n${'-'.repeat(50)}\n`;
-    t += `VIF evaluation: ${radio('vif')}\n`;
-    t += `Beta comparison: ${radio('beta-q')}\n`;
-    t += `Full APA results paragraph:\n${txt('s4-written')}\n\n`;
-
-    t += `${'='.repeat(65)}\nActivity completed via CRJU 5004 Week 7 interactive activity page.\n`;
-
-    const out = document.getElementById('submission-output');
-    out.textContent = t;
-    out.style.display = 'block';
-    document.getElementById('copy-wrap').style.display = 'block';
-    out.scrollIntoView({ behavior:'smooth', block:'start' });
-  }
-
-  function copyToClipboard() {
-    navigator.clipboard.writeText(document.getElementById('submission-output').textContent).then(() => {
-      const btn = document.querySelector('#copy-wrap button');
-      btn.textContent = '✓ Copied!';
-      setTimeout(() => btn.textContent = 'Copy to Clipboard', 2500);
-    }).catch(() => {
-      alert('Auto-copy not available. Select all text above and copy manually (Ctrl+A then Ctrl+C, or Cmd+A then Cmd+C).');
-    });
-  }
-</script>
-
-</body>
-</html>
+</div>
+<!-- END MODULE 7 ENGAGEMENT ACTIVITY INSTRUCTIONS -->
